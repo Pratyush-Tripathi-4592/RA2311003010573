@@ -1,9 +1,9 @@
-
 # Evaluation Service Backend
 
 Node.js + TypeScript + Express backend for managing evaluations, scheduling, and notifications.
 
 ## Features
+
 - User authentication and registration flow
 - Structured logging middleware
 - Vehicle maintenance scheduling with optimization algorithm
@@ -11,9 +11,11 @@ Node.js + TypeScript + Express backend for managing evaluations, scheduling, and
 - Clean architecture with separation of concerns
 
 ## Requirements
+
 - Node.js 20+
 
 ## Setup & Running
+
 1. Copy `.env.example` to `.env` and configure your environment variables:
    ```
    PORT=3000
@@ -38,6 +40,7 @@ Node.js + TypeScript + Express backend for managing evaluations, scheduling, and
    ```
 
 ## API Endpoints
+
 - `GET /health` - Health check
 - `POST /auth/register` - Register and authenticate user
 - `GET /vehicle-scheduling/solve` - Optimize vehicle maintenance scheduling
