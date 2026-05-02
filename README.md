@@ -1,27 +1,32 @@
 
-This is a complete Node.js + TypeScript + Express backend built for the evaluation assignment.
+# Evaluation Service Backend
 
-## Features implemented
-- Pre-test registration and auth flow
-- Reusable logging middleware (`logging_middleware/`)
-- Vehicle Maintenance Scheduler algorithm (0/1 Knapsack) (`vehicle_maintence_scheduler/`)
-- Notification system design markdown (`notification_system_design.md`)
-- Priority inbox solver (`notification_app_be/`)
-- Pure backend, no frontend, clean architecture
+Node.js + TypeScript + Express backend for managing evaluations, scheduling, and notifications.
+
+## Features
+- User authentication and registration flow
+- Structured logging middleware
+- Vehicle maintenance scheduling with optimization algorithm
+- Notification system with priority-based inbox
+- Clean architecture with separation of concerns
 
 ## Requirements
 - Node.js 20+
 
 ## Setup & Running
-1. Copy `.env.example` to `.env` (or configure your environment variables):
+1. Copy `.env.example` to `.env` and configure your environment variables:
    ```
-   AFFORD_EMAIL=your-email@example.com
-   AFFORD_NAME="Your Name"
-   AFFORD_MOBILE=9999999999
-   AFFORD_ROLL_NO=YOUR_ROLL_NO
-   AFFORD_ACCESS_CODE=YOUR_ACCESS_CODE
+   PORT=3000
+   EMAIL=user@example.com
+   NAME="Your Name"
+   MOBILE=9999999999
+   ROLL_NO=YOUR_ROLL_NO
+   ACCESS_CODE=YOUR_ACCESS_CODE
    GITHUB_USERNAME=yourgithub
-   AFFORD_BASE_URL=http://evaluation-server-url
+   BASE_URL=http://evaluation-server-url
+   CLIENT_ID=
+   CLIENT_SECRET=
+   BEARER_TOKEN=
    ```
 2. Install dependencies:
    ```bash
@@ -32,8 +37,8 @@ This is a complete Node.js + TypeScript + Express backend built for the evaluati
    npm run dev
    ```
 
-## Endpoints
-- `GET /health` : Health check
-- `POST /auth/register` : Executes the full registration & auth flow. Saves `clientId`, `clientSecret`, and `token` internally for subsequent calls.
-- `GET /vehicle-scheduling/solve` : Solves the knapsack problem based on fetched vehicles and depots.
-- `GET /notifications/priority?limit=10` : Fetches notifications and sorts them by priority and time using the specified weights.
+## API Endpoints
+- `GET /health` - Health check
+- `POST /auth/register` - Register and authenticate user
+- `GET /vehicle-scheduling/solve` - Optimize vehicle maintenance scheduling
+- `GET /notifications/priority?limit=10` - Get priority-sorted notifications

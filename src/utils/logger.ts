@@ -18,18 +18,17 @@ export async function Log(
     message
   };
   try {
-    const url = `${config.affordBaseUrl}/log`;
-    // We use fire and forget to never block the app
+    const url = `${config.baseUrl}/log`;
+    // Fire and forget - don't block the app
     axios.post(url, payload, {
       headers: {
         'Authorization': `Bearer ${config.bearerToken || ''}`
       },
       timeout: 3000
-    }).catch(error => {
-      // Fallback to console for debugging if network call fails
+    }).catch(() => {
+      // Silently ignore network errors
     });
   } catch (err) {
-    // Synchronous errors handled here
-    console.error('[Logger Sync Error]:', err);
+    console.error('[Logger Error]:', err);
   }
 }

@@ -1,18 +1,16 @@
 import axios from 'axios';
 import { config } from '../config/env';
 
-const getBaseUrl = () => config.affordBaseUrl;
+const getBaseUrl = () => config.baseUrl;
 
-// Helper to ensure we have a token before making protected API calls
 const ensureAuth = async () => {
   const { authService } = await import('../services/authService');
   await authService.getAuthToken();
 };
 
-// Helper to handle API errors globally within the client
 const handleApiError = (error: any, context: string) => {
   const errData = error.response?.data;
-  console.error(`[API Client Error] ${context}:`, errData || error.message);
+  console.error(`[API Error] ${context}:`, errData || error.message);
   
   if (errData) {
     const msg = errData.message || errData.error || (errData.errors ? JSON.stringify(errData.errors) : JSON.stringify(errData));
@@ -25,13 +23,13 @@ export const evaluationClient = {
   async register() {
     try {
       const url = `${getBaseUrl()}/register`;
-      console.log("SENDING PAYLOAD:", { email: config.affordEmail, name: config.affordName, rollNo: config.affordRollNo, accessCode: config.affordAccessCode }); const payload = {
-        email: config.affordEmail,
-        name: config.affordName,
-        mobileNo: config.affordMobile,
+      const payload = {
+        email: config.email,
+        name: config.name,
+        mobileNo: config.mobile,
         githubUsername: config.githubUsername,
-        rollNo: config.affordRollNo,
-        accessCode: config.affordAccessCode
+        rollNo: config.rollNo,
+        accessCode: config.accessCode
       };
 
       const response = await axios.post(url, payload);
@@ -47,10 +45,10 @@ export const evaluationClient = {
       const payload = {
         clientId,
         clientSecret,
-        email: config.affordEmail,
-        name: config.affordName,
-        rollNo: config.affordRollNo,
-        accessCode: config.affordAccessCode
+        email: config.email,
+        name: config.name,
+        rollNo: config.rollNo,
+        accessCode: config.accessCode
       };
 
       const response = await axios.post(url, payload);

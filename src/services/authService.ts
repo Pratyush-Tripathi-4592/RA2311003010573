@@ -33,8 +33,7 @@ export class AuthService {
         return await this.performAuth(config.clientId, config.clientSecret);
       }
 
-      // 3. Otherwise, we must Register first, then Auth
-      await Log('backend', 'info', 'service', 'No credentials found, starting registration');
+      // Register, then authenticate
       const regResponse = await evaluationClient.register();
       const clientId = regResponse.clientId || regResponse.clientID;
       const clientSecret = regResponse.clientSecret;
@@ -44,9 +43,7 @@ export class AuthService {
       }
 
       updateConfig({ clientId, clientSecret });
-      console.log('✅ Registration successful. Please add these to your .env:');
-      console.log(`AFFORD_CLIENT_ID=${clientId}`);
-      console.log(`AFFORD_CLIENT_SECRET=${clientSecret}`);
+      console.log('✓ Registration successful. Credentials saved to .env');
 
       await Log('backend', 'success', 'service', 'Registration successful');
       return await this.performAuth(clientId, clientSecret);
