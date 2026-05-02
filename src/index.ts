@@ -24,3 +24,4 @@ app.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}`);
   await Log('backend', 'info', 'route', `Server started on port ${PORT}`);
 });
+

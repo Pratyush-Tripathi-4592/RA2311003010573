@@ -16,9 +16,15 @@ export class VehicleSchedulerService {
 
       // Robust parsing for depot
       // Expected depots array. Pick the one with the highest hours if multiple.
-      const depots = Array.isArray(depotsData) ? depotsData : (depotsData.depots || []);
+      const depots = Array.isArray(depotsData) ? depotsData : (depotsData?.depots || []);
       if (!depots || depots.length === 0) {
-        throw new Error('No depots found');
+        return {
+          depotUsed: 'None',
+          totalDuration: 0,
+          totalImpact: 0,
+          selectedTaskIDs: [],
+          debug: 'No depots found or malformed API response'
+        };
       }
 
       // Pick first or best depot

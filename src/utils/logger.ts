@@ -17,15 +17,19 @@ export async function Log(
     package: pkg.toLowerCase(),
     message
   };
-  const url = `${config.affordBaseUrl}/evaluation-service/log`;
-  // We use fire and forget to never block the app
-  axios.post(url, payload, {
-    headers: {
-      'Authorization': `Bearer ${config.bearerToken || ''}`
-    },
-    timeout: 3000
-  }).catch(error => {
-    // Fallback to console for debugging if network call fails
-    // Silent catch as requested: "never block the app if logging fails; logging errors should be caught and handled gracefully"
-  });
+  try {
+    const url = `${config.affordBaseUrl}/log`;
+    // We use fire and forget to never block the app
+    axios.post(url, payload, {
+      headers: {
+        'Authorization': `Bearer ${config.bearerToken || ''}`
+      },
+      timeout: 3000
+    }).catch(error => {
+      // Fallback to console for debugging if network call fails
+    });
+  } catch (err) {
+    // Synchronous errors handled here
+    console.error('[Logger Sync Error]:', err);
+  }
 }

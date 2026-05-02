@@ -14,10 +14,27 @@ export class ApiController {
   async registerAndAuth(req: Request, res: Response) {
     try {
       await Log('backend', 'info', 'controller', 'Register and auth requested');
+      
+      if (req.body && Object.keys(req.body).length > 0) {
+        const { updateConfig, config } = await import('../config/env');
+        updateConfig({
+          affordEmail: req.body.email || config.affordEmail,
+          affordName: req.body.name || config.affordName,
+          affordMobile: req.body.mobileNo || config.affordMobile,
+          githubUsername: req.body.githubUsername || config.githubUsername,
+          affordRollNo: req.body.rollNo || config.affordRollNo,
+          affordAccessCode: req.body.accessCode || config.affordAccessCode
+        });
+      }
+
       const result = await authService.registerAndAuth();
       res.json(result);
     } catch (error: any) {
-      res.status(500).json({ error: 'Auth failed', details: error.message });
+      console.error('[AuthController Error]:', error);
+      res.status(500).json({ 
+        error: 'Auth failed', 
+        details: error.message || 'Unknown error'
+      });
     }
   }
 
@@ -27,7 +44,11 @@ export class ApiController {
       const result = await vehicleSchedulerService.solve();
       res.json(result);
     } catch (error: any) {
-      res.status(500).json({ error: 'Vehicle scheduling failed', details: error.message });
+      console.error('[VehicleScheduler Error]:', error);
+      res.status(500).json({ 
+        error: 'Vehicle scheduling failed', 
+        details: error.message || 'Unknown error' 
+      });
     }
   }
 
@@ -38,7 +59,11 @@ export class ApiController {
       const result = await notificationService.getPriorityInbox(limit);
       res.json(result);
     } catch (error: any) {
-      res.status(500).json({ error: 'Notification priority failed', details: error.message });
+      console.error('[Notification Priority Error]:', error);
+      res.status(500).json({ 
+        error: 'Notification priority failed', 
+        details: error.message || 'Unknown error' 
+      });
     }
   }
 }

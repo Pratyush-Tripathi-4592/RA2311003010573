@@ -1,11 +1,16 @@
 import dotenv from 'dotenv';
-
-dotenv.config();
-
 import fs from 'fs';
 import path from 'path';
 
-export let config = {
+// Check if .env exists, if not warn
+const envPath = path.resolve(process.cwd(), '.env');
+if (!fs.existsSync(envPath)) {
+  console.warn('⚠️  .env file not found. Variables might not be loaded correctly.');
+}
+
+dotenv.config({ path: envPath });
+
+export const config = {
   port: process.env.PORT || 3000,
   affordEmail: process.env.AFFORD_EMAIL || '',
   affordName: process.env.AFFORD_NAME || '',
@@ -19,8 +24,13 @@ export let config = {
   bearerToken: process.env.AFFORD_BEARER_TOKEN || '',
 };
 
+// Validate required env vars at startup
+if (!config.affordBaseUrl || config.affordBaseUrl === 'http://localhost:8000') {
+  console.warn('⚠️  AFFORD_BASE_URL might be incorrect or using default placeholder.');
+}
+
 export function updateConfig(newConfig: Partial<typeof config>) {
-  config = { ...config, ...newConfig };
+  Object.assign(config, newConfig);
   
   // Optionally persist to .env file
   try {
